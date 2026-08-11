@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agustín Marquardt — Mobile Engineer</title>
+<meta name="description" content="Portfolio de Agustín Marquardt, Mobile Engineer especializado en Ionic, Angular, Capacitor y automatización con IA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0E1A;
+    --surface:#12162A;
+    --surface-2:#171C36;
+    --line:#242A4A;
+    --text:#E8EAF2;
+    --muted:#9AA1B5;
+    --violet:#8B7CF7;
+    --cyan:#4FD8E0;
+    --violet-dim:rgba(139,124,247,.14);
+    --cyan-dim:rgba(79,216,224,.12);
+    --radius:14px;
+    --font-display:'Syne',sans-serif;
+    --font-body:'Manrope',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--violet);color:#0B0E1A}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .container{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ===== Nav ===== */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,14,26,.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:var(--font-mono);font-size:.95rem;color:var(--text);letter-spacing:.02em}
+  .logo b{color:var(--violet)}
+  .nav-links{display:flex;gap:26px;align-items:center;list-style:none}
+  .nav-links a{color:var(--muted);font-size:.9rem;font-weight:600;text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .lang-toggle{
+    font-family:var(--font-mono);font-size:.8rem;
+    border:1px solid var(--line);border-radius:8px;
+    background:var(--surface);color:var(--text);
+    padding:6px 12px;cursor:pointer;transition:border-color .2s;
+  }
+  .lang-toggle:hover{border-color:var(--violet)}
+  .lang-toggle .active{color:var(--cyan)}
+  .lang-toggle .off{color:var(--muted)}
+  .menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+  /* ===== Hero ===== */
+  .hero{padding:90px 0 70px;position:relative;overflow:hidden}
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(600px 320px at 85% 20%, var(--violet-dim), transparent 70%),
+      radial-gradient(500px 300px at 10% 90%, var(--cyan-dim), transparent 70%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;position:relative}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:.78rem;color:var(--cyan);
+    letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px;display:block;
+  }
+  h1{
+    font-family:var(--font-display);font-weight:800;
+    font-size:clamp(2.4rem,5.4vw,3.7rem);line-height:1.08;
+    letter-spacing:-.01em;margin-bottom:16px;
+  }
+  h1 .accent{
+    background:linear-gradient(92deg,var(--violet),var(--cyan));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-sub{color:var(--muted);font-size:1.08rem;max-width:520px;margin-bottom:14px}
+  .hero-loc{font-family:var(--font-mono);font-size:.82rem;color:var(--muted);margin-bottom:30px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:10px;font-weight:700;font-size:.92rem;
+    transition:transform .15s,box-shadow .2s;text-decoration:none;
+  }
+  .btn:hover{text-decoration:none;transform:translateY(-2px)}
+  .btn-primary{background:linear-gradient(92deg,var(--violet),#6a5ae0);color:#fff;box-shadow:0 6px 22px rgba(139,124,247,.3)}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);background:var(--surface)}
+  .btn-ghost:hover{border-color:var(--cyan)}
+
+  /* ===== Phone mockup (elemento distintivo) ===== */
+  .phone-wrap{display:flex;justify-content:center;position:relative}
+  .phone{
+    width:270px;height:548px;border-radius:38px;
+    background:linear-gradient(160deg,#1a2040,#10142a);
+    border:1px solid var(--line);
+    box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 0 8px rgba(255,255,255,.02);
+    padding:14px;position:relative;
+    animation:float 7s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .phone-screen{
+    background:#0D1122;border-radius:26px;height:100%;
+    padding:22px 16px;display:flex;flex-direction:column;gap:14px;overflow:hidden;
+  }
+  .phone-notch{width:86px;height:5px;border-radius:3px;background:#2a3154;margin:0 auto}
+  .p-greet{font-family:var(--font-mono);font-size:.68rem;color:var(--muted)}
+  .p-balance-card{
+    background:linear-gradient(120deg,var(--violet),#5a4bd6 60%,#3fb8c9);
+    border-radius:16px;padding:16px;color:#fff;
+  }
+  .p-balance-label{font-size:.62rem;opacity:.85;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em}
+  .p-balance{font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-top:4px}
+  .p-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .p-action{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:12px;
+    padding:10px 6px;text-align:center;font-size:.6rem;color:var(--muted);
+    display:flex;flex-direction:column;gap:6px;align-items:center;
+  }
+  .p-action svg{width:18px;height:18px;stroke:var(--cyan)}
+  .p-feed-title{font-family:var(--font-mono);font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .p-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 11px}
+  .p-item-dot{width:28px;height:28px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+  .p-item-txt{font-size:.66rem;color:var(--text);line-height:1.35}
+  .p-item-txt small{display:block;color:var(--muted);font-size:.58rem}
+  .phone-tag{
+    position:absolute;font-family:var(--font-mono);font-size:.7rem;
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    padding:6px 11px;color:var(--cyan);box-shadow:0 8px 24px rgba(0,0,0,.4);
+  }
+  .tag-1{top:12%;left:-8%}
+  .tag-2{bottom:20%;right:-11%}
+
+  /* ===== Sections ===== */
+  section{padding:76px 0}
+  .sec-head{margin-bottom:42px}
+  .sec-eyebrow{font-family:var(--font-mono);font-size:.75rem;color:var(--violet);letter-spacing:.1em;text-transform:uppercase}
+  h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.7rem,3.4vw,2.3rem);margin-top:8px}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start}
+  .about-text{color:var(--muted);font-size:1.03rem}
+  .about-text strong{color:var(--text)}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+  .stat-num{font-family:var(--font-display);font-size:1.9rem;font-weight:800;color:var(--cyan)}
+  .stat-label{font-size:.82rem;color:var(--muted);margin-top:4px}
+
+  /* Timeline */
+  .timeline{position:relative;padding-left:34px}
+  .timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:var(--line)}
+  .job{position:relative;margin-bottom:52px}
+  .job:last-child{margin-bottom:0}
+  .job::before{
+    content:'';position:absolute;left:-30px;top:8px;width:11px;height:11px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--violet);
+  }
+  .job-date{font-family:var(--font-mono);font-size:.76rem;color:var(--cyan);letter-spacing:.03em}
+  .job-title{font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin:6px 0 2px}
+  .job-company{color:var(--violet);font-weight:700;font-size:.95rem}
+  .job-desc{color:var(--muted);font-size:.95rem;margin:10px 0 14px}
+  .job-highlights{list-style:none;display:grid;gap:9px}
+  .job-highlights li{
+    position:relative;padding-left:20px;color:var(--muted);font-size:.92rem;
+  }
+  .job-highlights li::before{content:'▸';position:absolute;left:0;color:var(--cyan)}
+  .job-highlights li strong{color:var(--text);font-weight:600}
+
+  /* Projects */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .proj{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;display:flex;flex-direction:column;gap:12px;
+    transition:transform .2s,border-color .2s;
+  }
+  .proj:hover{transform:translateY(-4px);border-color:var(--violet)}
+  .proj-icon{
+    width:44px;height:44px;border-radius:12px;background:var(--violet-dim);
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  }
+  .proj h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700}
+  .proj p{color:var(--muted);font-size:.9rem;flex:1}
+  .proj-result{
+    font-size:.82rem;color:var(--cyan);font-family:var(--font-mono);
+    border-top:1px solid var(--line);padding-top:12px;
+  }
+  .proj-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{
+    font-family:var(--font-mono);font-size:.68rem;color:var(--muted);
+    border:1px solid var(--line);border-radius:6px;padding:3px 8px;
+  }
+
+  /* Stack */
+  .stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+  .stack-group{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .stack-group h3{
+    font-family:var(--font-mono);font-size:.78rem;font-weight:500;color:var(--cyan);
+    text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    font-size:.82rem;font-weight:600;color:var(--text);
+    background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+    padding:6px 12px;transition:border-color .2s;
+  }
+  .chip:hover{border-color:var(--violet)}
+
+  /* Education */
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .edu-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .edu-card h3{font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:4px}
+  .edu-card .edu-inst{color:var(--violet);font-size:.9rem;font-weight:600}
+  .edu-card .edu-date{font-family:var(--font-mono);font-size:.76rem;color:var(--muted);margin-top:6px}
+  .cert-list{list-style:none;display:grid;gap:10px;margin-top:14px}
+  .cert-list li{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted);border-bottom:1px dashed var(--line);padding-bottom:8px}
+  .cert-list li span:last-child{font-family:var(--font-mono);font-size:.74rem;color:var(--cyan);flex-shrink:0}
+
+  /* Contact */
+  .contact{
+    background:linear-gradient(140deg,var(--surface),var(--surface-2));
+    border:1px solid var(--line);border-radius:20px;padding:56px 40px;text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .contact::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(420px 220px at 50% 0%, var(--violet-dim), transparent 70%);
+  }
+  .contact h2{margin-bottom:12px}
+  .contact p{color:var(--muted);max-width:480px;margin:0 auto 28px}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+
+  footer{border-top:1px solid var(--line);padding:26px 0;text-align:center}
+  footer p{font-family:var(--font-mono);font-size:.76rem;color:var(--muted)}
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .phone{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:48px}
+    .phone-wrap{order:-1}
+    .phone{width:240px;height:490px}
+    .tag-1{left:0}
+    .tag-2{right:0}
+    .about-grid{grid-template-columns:1fr}
+    .edu-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .nav-links{
+      display:none;position:absolute;top:64px;left:0;right:0;
+      background:var(--bg);border-bottom:1px solid var(--line);
+      flex-direction:column;padding:18px 24px;gap:16px;align-items:flex-start;
+    }
+    .nav-links.open{display:flex}
+    .menu-btn{display:block}
+    section{padding:56px 0}
+    .contact{padding:40px 22px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <span class="logo"><b>&lt;</b>agustin.marquardt<b>/&gt;</b></span>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-i18n="nav_about">Sobre mí</a></li>
+      <li><a href="#experience" data-i18n="nav_exp">Experiencia</a></li>
+      <li><a href="#projects" data-i18n="nav_proj">Proyectos</a></li>
+      <li><a href="#stack" data-i18n="nav_stack">Stack</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contacto</a></li>
+    </ul>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma / Switch language">
+        <span id="langES" class="active">ES</span> · <span id="langEN" class="off">EN</span>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow" data-i18n="hero_eyebrow">Mobile Engineer · Frontend &amp; Full Stack</span>
+      <h1 data-i18n-html="hero_title">Construyo apps móviles <span class="accent">fintech</span> que la gente usa todos los días</h1>
+      <p class="hero-sub" data-i18n="hero_sub">Más de 5 años desarrollando aplicaciones con Ionic, Angular y Capacitor — desde la autenticación biométrica hasta la publicación en las stores. Hoy potencio productos con IA aplicada y automatización.</p>
+      <p class="hero-loc">📍 Rosario, Santa Fe, Argentina · <span data-i18n="hero_remote">Disponible remoto</span></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact" data-i18n="hero_cta1">Hablemos</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/agust%C3%ADn-marquardt-0015611b3/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <!-- Para habilitar la descarga del CV: colocá el archivo .docx/.pdf junto a este HTML y descomentá la línea siguiente -->
+        <!-- <a class="btn btn-ghost" href="AGUSTIN_MARQUARDT_CV_ES.docx" download data-i18n="hero_cta2">Descargar CV</a> -->
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="p-greet" data-i18n="phone_greet">// features que desarrollé</div>
+          <div class="p-balance-card">
+            <div class="p-balance-label" data-i18n="phone_balance_label">Saldo disponible</div>
+            <div class="p-balance">S/ 1,234.56</div>
+          </div>
+          <div class="p-actions">
+            <div class="p-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg>
+              <span data-i18n="phone_qr">Pagar QR</span>
+            </div>
+            <div class="p-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M2 12h20M16 6l6 6-6 6"/></svg>
+              <span data-i18n="phone_transfer">Remesas</span>
+            </div>
+            <div class="p-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+              <span data-i18n="phone_bio">Face ID</span>
+            </div>
+          </div>
+          <div class="p-feed-title" data-i18n="phone_feed">Actividad reciente</div>
+          <div class="p-item">
+            <div class="p-item-dot" style="background:var(--violet-dim)">🔐</div>
+            <div class="p-item-txt" data-i18n-html="phone_item1">Login biométrico<small>SDK Incode · 5 flujos</small></div>
+          </div>
+          <div class="p-item">
+            <div class="p-item-dot" style="background:var(--cyan-dim)">🌎</div>
+            <div class="p-item-txt" data-i18n-html="phone_item2">Transferencia internacional<small>30+ variantes de formulario</small></div>
+          </div>
+          <div class="p-item">
+            <div class="p-item-dot" style="background:var(--violet-dim)">📈</div>
+            <div class="p-item-txt" data-i18n-html="phone_item3">Alerta tipo de cambio<small>Notificaciones configurables</small></div>
+          </div>
+        </div>
+        <span class="phone-tag tag-1">Ionic + Angular</span>
+        <span class="phone-tag tag-2">Capacitor</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">01 — <span data-i18n="about_eyebrow">Sobre mí</span></span>
+      <h2 data-i18n="about_title">Del código a la store, ciclo completo</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p data-i18n-html="about_p1">Soy <strong>Mobile Engineer</strong> con más de 5 años de experiencia en el desarrollo de aplicaciones móviles y web. Actualmente trabajo en <strong>Prex</strong>, fintech regional, donde lidero el desarrollo de funcionalidades críticas para el mercado peruano: autenticación biométrica, pagos con QR, transferencias internacionales e interoperabilidad bancaria.</p>
+        <br>
+        <p data-i18n-html="about_p2">Tengo experiencia completa en el ciclo de vida de apps: desde el desarrollo hasta la publicación y gestión de releases en <strong>Google Play Store y App Store</strong>. Complemento mi perfil con IA aplicada: integración de AI Agents y automatización de flujos con <strong>LangChain y n8n</strong>.</p>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label" data-i18n="stat1">Años de experiencia</div></div>
+        <div class="stat"><div class="stat-num">30+</div><div class="stat-label" data-i18n="stat2">Variantes de formularios de remesas</div></div>
+        <div class="stat"><div class="stat-num">800+</div><div class="stat-label" data-i18n="stat3">Usuarios activos en flujo de IA freelance</div></div>
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label" data-i18n="stat4">Stores: Google Play &amp; App Store</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">02 — <span data-i18n="exp_eyebrow">Experiencia</span></span>
+      <h2 data-i18n="exp_title">Trayectoria profesional</h2>
+    </div>
+    <div class="timeline">
+
+      <article class="job reveal">
+        <span class="job-date" data-i18n="job1_date">Dic 2023 — Presente</span>
+        <h3 class="job-title">Mobile Engineer</h3>
+        <span class="job-company">Prex · Fintech</span>
+        <p class="job-desc" data-i18n="job1_desc">Desarrollo de funcionalidades clave para la app fintech orientada al mercado peruano, en un equipo ágil (Scrum). Stack: Ionic, Angular, Capacitor, TypeScript, Firebase.</p>
+        <ul class="job-highlights">
+          <li data-i18n-html="job1_h1"><strong>Autenticación biométrica (Face ID)</strong> con SDK de Incode, reutilizada en 5 flujos y diseñada para escalar.</li>
+          <li data-i18n-html="job1_h2"><strong>Transferencias internacionales (Remesas):</strong> formularios dinámicos por país con tipado estricto, 30+ variantes.</li>
+          <li data-i18n-html="job1_h3"><strong>Interoperabilidad bancaria:</strong> transferencias por número de celular y CCI.</li>
+          <li data-i18n-html="job1_h4"><strong>Pagos con QR:</strong> escaneo con ML Kit y generación de QR para cobros.</li>
+          <li data-i18n-html="job1_h5"><strong>Alertas de tipo de cambio</strong> (soles/dólares) configurables por el usuario.</li>
+          <li data-i18n-html="job1_h6"><strong>Componente promocional dinámico</strong> vía Firebase Remote Config: marketing actualiza contenido sin despliegues.</li>
+          <li data-i18n-html="job1_h7"><strong>Migración del flujo de préstamos</strong> al core interno, con UI en el design system Xolar.</li>
+          <li data-i18n-html="job1_h8"><strong>Releases y despliegues</strong> en Google Play Store y App Store, tracking con Google Analytics y MoEngage.</li>
+        </ul>
+      </article>
+
+      <article class="job reveal">
+        <span class="job-date" data-i18n="job2_date">Ene 2020 — Presente</span>
+        <h3 class="job-title">Full Stack &amp; Mobile Developer</h3>
+        <span class="job-company">Freelance · Upwork / Fiverr / <span data-i18n="job2_clients">Clientes directos</span></span>
+        <p class="job-desc" data-i18n="job2_desc">Soluciones web y mobile para clientes locales e internacionales, con foco creciente en integración de IA y automatización. Stack: Ionic, Angular, Vue, React Native, Python, LangChain, n8n.</p>
+      </article>
+
+      <article class="job reveal">
+        <span class="job-date" data-i18n="job3_date">Nov 2022 — Nov 2023</span>
+        <h3 class="job-title">Frontend / Mobile Engineer</h3>
+        <span class="job-company">Movizen</span>
+        <p class="job-desc" data-i18n="job3_desc">Múltiples soluciones web y mobile para los sectores industrial, agro, logística y servicios. Stack: Ionic, Angular, Capacitor.</p>
+        <ul class="job-highlights">
+          <li data-i18n-html="job3_h1"><strong>Vesta Forestal:</strong> app industrial para tablets en grúas forestales — Bluetooth BLE con ESP32, plugins nativos en Java, sincronización offline.</li>
+          <li data-i18n-html="job3_h2"><strong>ERP Agrícola (Seed Ingeniería):</strong> módulos de contabilidad, stock y finanzas en Angular.</li>
+          <li data-i18n-html="job3_h3"><strong>Coccolo:</strong> app de conexión entre transportistas y cargas con geolocalización y mapas.</li>
+          <li data-i18n-html="job3_h4"><strong>Viandaz:</strong> PWA de gestión de pedidos en comedores empresariales con impresión de tickets.</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">03 — <span data-i18n="proj_eyebrow">Proyectos destacados</span></span>
+      <h2 data-i18n="proj_title">Trabajo del que estoy orgulloso</h2>
+    </div>
+    <div class="proj-grid">
+
+      <article class="proj reveal">
+        <div class="proj-icon">🤖</div>
+        <h3 data-i18n="p1_title">Automatización con IA para gimnasio</h3>
+        <p data-i18n="p1_desc">Flujo end-to-end con n8n, OpenAI API y WhatsApp API: atención automatizada de consultas y clasificación inteligente de comprobantes de pago.</p>
+        <div class="proj-result" data-i18n="p1_result">→ 800+ usuarios activos · ahorro operativo significativo</div>
+        <div class="proj-tags"><span class="tag">n8n</span><span class="tag">OpenAI API</span><span class="tag">WhatsApp API</span></div>
+      </article>
+
+      <article class="proj reveal">
+        <div class="proj-icon">🎙️</div>
+        <h3 data-i18n="p2_title">ERP con asistente por voz</h3>
+        <p data-i18n="p2_desc">Agente conversacional con LangChain y speech recognition que automatiza el flujo completo de compra: búsqueda, carrito y checkout sin interacción manual.</p>
+        <div class="proj-result" data-i18n="p2_result">→ Cliente internacional · compra 100% por voz</div>
+        <div class="proj-tags"><span class="tag">LangChain</span><span class="tag">Ionic</span><span class="tag">Angular</span></div>
+      </article>
+
+      <article class="proj reveal">
+        <div class="proj-icon">👗</div>
+        <h3>The Cloud Closet</h3>
+        <p data-i18n="p3_desc">Migración de app web Vue a mobile con Ionic + Vue, publicación completa en App Store y recomendaciones personalizadas de outfits con OpenAI API.</p>
+        <div class="proj-result" data-i18n="p3_result">→ Publicada en App Store · cliente USA</div>
+        <div class="proj-tags"><span class="tag">Ionic</span><span class="tag">Vue</span><span class="tag">OpenAI API</span></div>
+      </article>
+
+      <article class="proj reveal">
+        <div class="proj-icon">🏗️</div>
+        <h3>Vesta Forestal</h3>
+        <p data-i18n="p4_desc">App industrial para tablets en cabinas de grúas forestales: Bluetooth BLE con ESP32, plugins nativos Java, lectura GPIO, roles y sincronización offline.</p>
+        <div class="proj-result" data-i18n="p4_result">→ Hardware + software en entorno industrial real</div>
+        <div class="proj-tags"><span class="tag">BLE</span><span class="tag">ESP32</span><span class="tag">Java</span><span class="tag">Capacitor</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== STACK ===== -->
+<section id="stack">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">04 — Stack</span>
+      <h2 data-i18n="stack_title">Tecnologías que domino</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-group reveal">
+        <h3>Mobile</h3>
+        <div class="chips"><span class="chip">Ionic</span><span class="chip">Capacitor</span><span class="chip">Cordova</span><span class="chip">Android (Java)</span><span class="chip">BLE / Bluetooth</span><span class="chip">React Native</span></div>
+      </div>
+      <div class="stack-group reveal">
+        <h3>Frontend</h3>
+        <div class="chips"><span class="chip">Angular</span><span class="chip">Vue</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">JavaScript</span><span class="chip">SCSS</span></div>
+      </div>
+      <div class="stack-group reveal">
+        <h3>Backend &amp; Cloud</h3>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">Python</span><span class="chip">Firebase</span><span class="chip">AWS</span><span class="chip">SQL</span></div>
+      </div>
+      <div class="stack-group reveal">
+        <h3 data-i18n="stack_ai">AI &amp; Automatización</h3>
+        <div class="chips"><span class="chip">LangChain</span><span class="chip">n8n</span><span class="chip">OpenAI API</span><span class="chip">MCP</span><span class="chip">Prompt Engineering</span><span class="chip">Claude Code</span><span class="chip">Cursor</span></div>
+      </div>
+      <div class="stack-group reveal">
+        <h3>Analytics &amp; Marketing</h3>
+        <div class="chips"><span class="chip">Google Analytics</span><span class="chip">MoEngage</span><span class="chip">Appsflyer</span><span class="chip">Remote Config</span></div>
+      </div>
+      <div class="stack-group reveal">
+        <h3 data-i18n="stack_tools">Metodologías &amp; Herramientas</h3>
+        <div class="chips"><span class="chip">Scrum / Agile</span><span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">Play Store</span><span class="chip">App Store Connect</span><span class="chip">Linux</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDUCATION ===== -->
+<section id="education">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">05 — <span data-i18n="edu_eyebrow">Formación</span></span>
+      <h2 data-i18n="edu_title">Educación y certificaciones</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <h3 data-i18n="edu_degree">Tecnicatura en Inteligencia Artificial <span style="color:var(--cyan)">(en curso)</span></h3>
+        <div class="edu-inst">Universidad Nacional de Rosario</div>
+        <div class="edu-date" data-i18n="edu_date">Marzo 2022 — Presente</div>
+        <div style="margin-top:16px">
+          <div class="edu-date" data-i18n="lang_title" style="text-transform:uppercase;letter-spacing:.08em">Idiomas</div>
+          <ul class="cert-list">
+            <li><span data-i18n="lang_es">Español — Nativo</span></li>
+            <li><span data-i18n="lang_en">Inglés — B2</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="edu-card reveal">
+        <h3 data-i18n="cert_title">Cursos y certificaciones</h3>
+        <ul class="cert-list">
+          <li><span>AWS AI Practitioner · Udemy</span><span>2025</span></li>
+          <li><span>Angular — The Complete Guide · Udemy</span><span>2024</span></li>
+          <li><span>Clean Code · Udemy</span><span>2024</span></li>
+          <li><span>Frontend Web Developer · Coderhouse</span><span>2022</span></li>
+          <li><span>Scientific Computing with Python · freeCodeCamp</span><span>2022</span></li>
+          <li><span>Responsive Web Design · freeCodeCamp</span><span>2022</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="contact reveal">
+      <span class="sec-eyebrow">06 — <span data-i18n="contact_eyebrow">Contacto</span></span>
+      <h2 data-i18n="contact_title">¿Construimos algo juntos?</h2>
+      <p data-i18n="contact_sub">Estoy abierto a nuevas oportunidades, proyectos freelance y colaboraciones. Escribime y te respondo a la brevedad.</p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:amarquardt20@gmail.com">✉️ amarquardt20@gmail.com</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/agust%C3%ADn-marquardt-0015611b3/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <!-- Si querés mostrar tu teléfono, agregá acá:
+        <a class="btn btn-ghost" href="tel:+5493416833514">📞 +54 9 341 683 3514</a> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> Agustín Marquardt · <span data-i18n="footer_txt">Hecho con HTML, CSS y mucho mate</span> 🧉</p>
+</footer>
+
+<script>
+/* ===== i18n ===== */
+const i18n = {
+  en: {
+    nav_about:"About", nav_exp:"Experience", nav_proj:"Projects", nav_stack:"Stack", nav_contact:"Contact",
+    hero_eyebrow:"Mobile Engineer · Frontend & Full Stack",
+    hero_title:'I build <span class="accent">fintech</span> mobile apps people use every day',
+    hero_sub:"5+ years developing apps with Ionic, Angular and Capacitor — from biometric authentication to store publishing. Today I boost products with applied AI and automation.",
+    hero_remote:"Open to remote", hero_cta1:"Let's talk", hero_cta2:"Download CV",
+    phone_greet:"// features I built", phone_balance_label:"Available balance",
+    phone_qr:"QR Pay", phone_transfer:"Remittances", phone_bio:"Face ID", phone_feed:"Recent activity",
+    phone_item1:"Biometric login<small>Incode SDK · 5 flows</small>",
+    phone_item2:"International transfer<small>30+ form variants</small>",
+    phone_item3:"Exchange rate alert<small>Configurable notifications</small>",
+    about_eyebrow:"About me", about_title:"From code to store, full cycle",
+    about_p1:'I\'m a <strong>Mobile Engineer</strong> with 5+ years of experience building mobile and web applications. I currently work at <strong>Prex</strong>, a regional fintech, leading the development of critical features for the Peruvian market: biometric authentication, QR payments, international transfers and banking interoperability.',
+    about_p2:'I own the full app lifecycle: from development to publishing and release management on <strong>Google Play Store and App Store</strong>. I complement my profile with applied AI: AI Agent integration and workflow automation with <strong>LangChain and n8n</strong>.',
+    stat1:"Years of experience", stat2:"Remittance form variants", stat3:"Active users in freelance AI flow", stat4:"Stores: Google Play & App Store",
+    exp_eyebrow:"Experience", exp_title:"Professional journey",
+    job1_date:"Dec 2023 — Present",
+    job1_desc:"Development of key features for the fintech app targeting the Peruvian market, within an agile team (Scrum). Stack: Ionic, Angular, Capacitor, TypeScript, Firebase.",
+    job1_h1:"<strong>Biometric authentication (Face ID)</strong> with Incode SDK, reused in 5 flows and designed to scale.",
+    job1_h2:"<strong>International transfers (Remittances):</strong> dynamic per-country forms with strict typing, 30+ variants.",
+    job1_h3:"<strong>Banking interoperability:</strong> transfers by phone number and CCI.",
+    job1_h4:"<strong>QR payments:</strong> ML Kit scanning and QR generation for collections.",
+    job1_h5:"<strong>Exchange rate alerts</strong> (soles/dollars) configurable by the user.",
+    job1_h6:"<strong>Dynamic promo component</strong> via Firebase Remote Config: marketing updates content with no deploys.",
+    job1_h7:"<strong>Loan flow migration</strong> to the internal core, with UI on the Xolar design system.",
+    job1_h8:"<strong>Releases and deployments</strong> on Google Play Store and App Store, tracking with Google Analytics and MoEngage.",
+    job2_date:"Jan 2020 — Present", job2_clients:"Direct clients",
+    job2_desc:"Web and mobile solutions for local and international clients, with a growing focus on AI integration and automation. Stack: Ionic, Angular, Vue, React Native, Python, LangChain, n8n.",
+    job3_date:"Nov 2022 — Nov 2023",
+    job3_desc:"Multiple web and mobile solutions for the industrial, agro, logistics and services sectors. Stack: Ionic, Angular, Capacitor.",
+    job3_h1:"<strong>Vesta Forestal:</strong> industrial app for tablets in forest crane cabins — Bluetooth BLE with ESP32, native Java plugins, offline sync.",
+    job3_h2:"<strong>Agricultural ERP (Seed Ingeniería):</strong> accounting, stock and finance modules in Angular.",
+    job3_h3:"<strong>Coccolo:</strong> app connecting carriers and loads with geolocation and maps.",
+    job3_h4:"<strong>Viandaz:</strong> PWA for corporate dining order management with ticket printing.",
+    proj_eyebrow:"Featured projects", proj_title:"Work I'm proud of",
+    p1_title:"AI automation for a gym",
+    p1_desc:"End-to-end flow with n8n, OpenAI API and WhatsApp API: automated customer support and intelligent classification of payment receipts.",
+    p1_result:"→ 800+ active users · significant operational savings",
+    p2_title:"ERP with voice assistant",
+    p2_desc:"Conversational agent with LangChain and speech recognition automating the full purchase flow: search, cart and checkout with no manual interaction.",
+    p2_result:"→ International client · 100% voice-driven purchase",
+    p3_desc:"Vue web app migrated to mobile with Ionic + Vue, full App Store publication and personalized outfit recommendations with OpenAI API.",
+    p3_result:"→ Published on App Store · USA client",
+    p4_desc:"Industrial app for tablets in forest crane cabins: Bluetooth BLE with ESP32, native Java plugins, GPIO reading, roles and offline sync.",
+    p4_result:"→ Hardware + software in a real industrial environment",
+    stack_title:"Technologies I work with", stack_ai:"AI & Automation", stack_tools:"Methodologies & Tools",
+    edu_eyebrow:"Education", edu_title:"Education & certifications",
+    edu_degree:'Associate Degree in Artificial Intelligence <span style="color:var(--cyan)">(in progress)</span>',
+    edu_date:"March 2022 — Present", lang_title:"Languages", lang_es:"Spanish — Native", lang_en:"English — B2",
+    cert_title:"Courses & certifications",
+    contact_eyebrow:"Contact", contact_title:"Shall we build something together?",
+    contact_sub:"I'm open to new opportunities, freelance projects and collaborations. Drop me a line and I'll get back to you shortly.",
+    footer_txt:"Built with HTML, CSS and plenty of mate"
+  },
+  es: {} // el español está en el HTML como idioma base
+};
+
+// Guardar los textos ES originales para poder volver
+document.querySelectorAll('[data-i18n]').forEach(el=>{ i18n.es[el.dataset.i18n]=el.textContent; });
+document.querySelectorAll('[data-i18n-html]').forEach(el=>{ i18n.es[el.dataset.i18nHtml]=el.innerHTML; });
+
+let lang='es';
+const langToggle=document.getElementById('langToggle');
+function applyLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n; if(i18n[l][k]!==undefined) el.textContent=i18n[l][k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k=el.dataset.i18nHtml; if(i18n[l][k]!==undefined) el.innerHTML=i18n[l][k];
+  });
+  document.getElementById('langES').className = l==='es'?'active':'off';
+  document.getElementById('langEN').className = l==='en'?'active':'off';
+}
+langToggle.addEventListener('click',()=>applyLang(lang==='es'?'en':'es'));
+
+/* ===== Menú mobile ===== */
+const menuBtn=document.getElementById('menuBtn');
+const navLinks=document.getElementById('navLinks');
+menuBtn.addEventListener('click',()=>navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+
+/* ===== Reveal on scroll ===== */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ===== Año dinámico ===== */
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
